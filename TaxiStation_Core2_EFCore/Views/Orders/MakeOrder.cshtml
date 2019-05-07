@@ -1,0 +1,67 @@
+﻿@model TaxiStation_Core2_EFCore.Models.ViewModels.MakeOrder
+
+@{
+    ViewData["Title"] = "MakeOrder";
+}
+
+<h1>MakeOrder</h1>
+
+<h4>MakeOrder</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MakeOrder" asp-controller="Order">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Phone_number" class="control-label"></label>
+                <input asp-for="Phone_number" class="form-control" />
+                <span asp-validation-for="Phone_number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Id_order_type" class="control-label"></label>
+                @*<select asp-for="Id_order_type" asp-items="@ViewBag.OrderTypes"></select>*@
+                @Html.DropDownList("Id_order_type", ViewBag.Order_types as SelectList)
+                @*<input asp-for="Id_order_type" class="form-control" />*@
+                <span asp-validation-for="Id_order_type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Start_point_lat" class="control-label"></label>
+                <input asp-for="Start_point_lat" class="form-control" />
+                <span asp-validation-for="Start_point_lat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Start_point_long" class="control-label"></label>
+                <input asp-for="Start_point_long" class="form-control" />
+                <span asp-validation-for="Start_point_long" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="End_point_lat" class="control-label"></label>
+                <input asp-for="End_point_lat" class="form-control" />
+                <span asp-validation-for="End_point_lat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="End_point_long" class="control-label"></label>
+                <input asp-for="End_point_long" class="form-control" />
+                <span asp-validation-for="End_point_long" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Pets" /> @Html.DisplayNameFor(model => model.Pets)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Child" /> @Html.DisplayNameFor(model => model.Child)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
