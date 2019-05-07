@@ -9,6 +9,7 @@
 
 namespace TestExample.DB
 {
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.Collections.Generic;
     
@@ -31,7 +32,9 @@ namespace TestExample.DB
         public int rating_count { get; set; }
         public string email { get; set; }
         public string pass_hash { get; set; }
-    
+        public bool confirmed { get; set; }
+        public int security_code { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Turns> Turns { get; set; }
     }

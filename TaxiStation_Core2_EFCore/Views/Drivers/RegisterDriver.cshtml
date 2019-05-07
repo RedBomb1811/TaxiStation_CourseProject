@@ -1,0 +1,68 @@
+﻿@model TaxiStation_Core2_EFCore.Models.Registrarion.RegisterDriver
+
+<h1>RegisterDriver2</h1>
+
+<h4>RegisterDriver</h4>
+<h2> Code: @ViewBag.Code</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-controller="Driver" asp-action="Register">
+            <div class="validation" asp-validation-summary="ModelOnly"></div>
+            <div class="form-group">
+                <label asp-for="Phone_number"></label>
+                <input type="text" asp-for="Phone_number" />
+                <span asp-validation-for="Phone_number" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label asp-for="First_name" class="control-label"></label>
+                <input asp-for="First_name" class="form-control" />
+                <span asp-validation-for="First_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Second_name" class="control-label"></label>
+                <input asp-for="Second_name" class="form-control" />
+                <span asp-validation-for="Second_name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Birth_date" class="control-label"></label>
+                <input asp-for="Birth_date" type="date" class="form-control" />
+                <span asp-validation-for="Birth_date" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Sex" /> Мужчина
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Pass_number" class="control-label"></label>
+                <input asp-for="Pass_number" class="form-control" />
+                <span asp-validation-for="Pass_number" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password_confirm" class="control-label"></label>
+                <input asp-for="Password_confirm" class="form-control" />
+                <span asp-validation-for="Password_confirm" class="text-danger"></span>
+            </div>
+            @ViewBag.Message
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
