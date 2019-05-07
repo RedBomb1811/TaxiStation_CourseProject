@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,6 +17,7 @@ using TestExample.DB;
 
 namespace TaxiStation_Core2_EFCore.Controllers
 {
+    ///TODO: ограничить доступ неавторизированных пользователей
     [Route("Driver")]
     public class DriversController : Controller
     {
@@ -26,7 +28,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
             _context = context;
         }
 
-#region Register
+        #region Register
         [HttpGet]
         [Route("Login")]
         public IActionResult Login()
@@ -72,6 +74,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
         {
             if (ModelState.IsValid)
             {
+                ///TODO: сделать проверку на возраст 18+
                 Drivers user = await _context.Drivers.FirstOrDefaultAsync(u => u.phone_number == model.Phone_number);
                 if (user == null)
                 {
@@ -89,6 +92,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
 
                     await Authenticate(model.Phone_number); // аутентификация
 
+                    ///TODO: подключить отправку сообщений
                     ViewData["Phone_number"] = model.Phone_number;
                     return View("ConfirmDriver");
                 }
@@ -110,11 +114,16 @@ namespace TaxiStation_Core2_EFCore.Controllers
 
         [HttpPost]
         [Route("Confirm")]
-        public IActionResult ConfirmDriver(int Code)
+        public IActionResult ConfirmDriver(string Phone_number, int Code)
         {
             // Make this shiiiiiiit
-            if (Code <= 0)
-                ModelState.AddModelError("", "Not correct code, try again");
+            if (Code > 0)
+                if (_context.ConfirmDriver(Phone_number, Code) == 1)
+                    return RedirectToAction("Index", "Home");
+
+            ModelState.AddModelError("", "Not correct code, try again");
+            // ????????????
+            ViewData["Phone_number"] = Phone_number;
             return View("ConfirmDriver");
         }
 
@@ -130,132 +139,136 @@ namespace TaxiStation_Core2_EFCore.Controllers
             // установка аутентификационных куки
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
-
+        
+        [Authorize]
         [Route("Logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Driver");
         }
-#endregion
+        #endregion
 
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Drivers.ToListAsync());
-        }
 
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var drivers = await _context.Drivers
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (drivers == null)
-            {
-                return NotFound();
-            }
 
-            return View(drivers);
-        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    return View(await _context.Drivers.ToListAsync());
+        //}
 
-        public IActionResult Create()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> Details(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,first_name,second_name,birth_date,sex,phone_number,pass_number,rating_sum,rating_count,email,pass_hash")] Drivers drivers)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(drivers);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(drivers);
-        }
+        //    var drivers = await _context.Drivers
+        //        .FirstOrDefaultAsync(m => m.id == id);
+        //    if (drivers == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //    return View(drivers);
+        //}
 
-            var drivers = await _context.Drivers.FindAsync(id);
-            if (drivers == null)
-            {
-                return NotFound();
-            }
-            return View(drivers);
-        }
+        //public IActionResult Create()
+        //{
+        //    return View();
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,first_name,second_name,birth_date,sex,phone_number,pass_number,rating_sum,rating_count,email,pass_hash")] Drivers drivers)
-        {
-            if (id != drivers.id)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Create([Bind("id,first_name,second_name,birth_date,sex,phone_number,pass_number,rating_sum,rating_count,email,pass_hash")] Drivers drivers)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(drivers);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(drivers);
+        //}
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(drivers);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DriversExists(drivers.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(drivers);
-        }
+        //public async Task<IActionResult> Edit(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //    var drivers = await _context.Drivers.FindAsync(id);
+        //    if (drivers == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(drivers);
+        //}
 
-            var drivers = await _context.Drivers
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (drivers == null)
-            {
-                return NotFound();
-            }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Edit(int id, [Bind("id,first_name,second_name,birth_date,sex,phone_number,pass_number,rating_sum,rating_count,email,pass_hash")] Drivers drivers)
+        //{
+        //    if (id != drivers.id)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(drivers);
-        }
+        //    if (ModelState.IsValid)
+        //    {
+        //        try
+        //        {
+        //            _context.Update(drivers);
+        //            await _context.SaveChangesAsync();
+        //        }
+        //        catch (DbUpdateConcurrencyException)
+        //        {
+        //            if (!DriversExists(drivers.id))
+        //            {
+        //                return NotFound();
+        //            }
+        //            else
+        //            {
+        //                throw;
+        //            }
+        //        }
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    return View(drivers);
+        //}
 
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var drivers = await _context.Drivers.FindAsync(id);
-            _context.Drivers.Remove(drivers);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-        private bool DriversExists(int id)
-        {
-            return _context.Drivers.Any(e => e.id == id);
-        }
+        //    var drivers = await _context.Drivers
+        //        .FirstOrDefaultAsync(m => m.id == id);
+        //    if (drivers == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return View(drivers);
+        //}
+
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var drivers = await _context.Drivers.FindAsync(id);
+        //    _context.Drivers.Remove(drivers);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        //private bool DriversExists(int id)
+        //{
+        //    return _context.Drivers.Any(e => e.id == id);
+        //}
     }
 }

@@ -5,12 +5,17 @@
     <div class="validation" asp-validation-summary="ModelOnly"></div>
     <div>
         <div class="form-group">
-            <label>Введите код для @ViewData["Phone_number"]</label>
+            <label>Номер телефона</label>
+            <br />
+            <input type="text" name="Phone_number" value="@ViewData["Phone_number"]"/>
+            <br />
+            <label>Код подтверждения</label>
+            <br />
             <input name="Code" type="number" />
         </div>
         @ViewBag.Message
         <div class="form-group">
-            <input type="submit" value="Войти" class="btn" />
+            <input type="submit" value="Подтвердить" class="btn" />
         </div>
     </div>
 </form>

@@ -1,0 +1,95 @@
+﻿@model TestExample.DB.Orders
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Orders</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="id_client" class="control-label"></label>
+                <input asp-for="id_client" class="form-control" />
+                <span asp-validation-for="id_client" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="id_turns" class="control-label"></label>
+                <input asp-for="id_turns" class="form-control" />
+                <span asp-validation-for="id_turns" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="date_start_order" class="control-label"></label>
+                <input asp-for="date_start_order" class="form-control" />
+                <span asp-validation-for="date_start_order" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="date_start_trip" class="control-label"></label>
+                <input asp-for="date_start_trip" class="form-control" />
+                <span asp-validation-for="date_start_trip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="date_end_trip" class="control-label"></label>
+                <input asp-for="date_end_trip" class="form-control" />
+                <span asp-validation-for="date_end_trip" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="id_order_type" class="control-label"></label>
+                <input asp-for="id_order_type" class="form-control" />
+                <span asp-validation-for="id_order_type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="start_point_lat" class="control-label"></label>
+                <input asp-for="start_point_lat" class="form-control" />
+                <span asp-validation-for="start_point_lat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="start_point_long" class="control-label"></label>
+                <input asp-for="start_point_long" class="form-control" />
+                <span asp-validation-for="start_point_long" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="end_point_lat" class="control-label"></label>
+                <input asp-for="end_point_lat" class="form-control" />
+                <span asp-validation-for="end_point_lat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="end_point_long" class="control-label"></label>
+                <input asp-for="end_point_long" class="form-control" />
+                <span asp-validation-for="end_point_long" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="security_code" class="control-label"></label>
+                <input asp-for="security_code" class="form-control" />
+                <span asp-validation-for="security_code" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="confirmed" /> @Html.DisplayNameFor(model => model.confirmed)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="pets" /> @Html.DisplayNameFor(model => model.pets)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="child" /> @Html.DisplayNameFor(model => model.child)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

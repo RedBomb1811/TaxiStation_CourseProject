@@ -251,7 +251,7 @@ namespace TestExample.DB
             parametrs.Add(new SqlParameter("@phone_driver", phone_driver));
             parametrs.Add(new SqlParameter("@code", code));
 
-            return this.Database.ExecuteSqlCommand("RegisterDriverFromNumber " +
+            return Database.ExecuteSqlCommand("ConfirmDriver " +
                 "@phone_driver, " +
                 "@code", parametrs);
         }

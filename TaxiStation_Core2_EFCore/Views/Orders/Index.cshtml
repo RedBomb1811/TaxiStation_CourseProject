@@ -1,0 +1,113 @@
+﻿@model IEnumerable<TestExample.DB.Orders>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_turns)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date_start_order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date_start_trip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date_end_trip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_order_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.start_point_lat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.start_point_long)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.end_point_lat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.end_point_long)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.security_code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.confirmed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pets)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.child)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_client)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_turns)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_start_order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_start_trip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_end_trip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_order_type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.start_point_lat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.start_point_long)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.end_point_lat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.end_point_long)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.security_code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.confirmed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pets)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.child)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

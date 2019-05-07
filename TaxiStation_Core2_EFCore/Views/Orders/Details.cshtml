@@ -1,0 +1,102 @@
+﻿@model TestExample.DB.Orders
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Orders</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.id_client)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.id_client)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.id_turns)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.id_turns)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.date_start_order)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.date_start_order)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.date_start_trip)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.date_start_trip)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.date_end_trip)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.date_end_trip)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.id_order_type)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.id_order_type)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.start_point_lat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.start_point_lat)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.start_point_long)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.start_point_long)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.end_point_lat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.end_point_lat)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.end_point_long)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.end_point_long)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.security_code)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.security_code)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.confirmed)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.confirmed)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.pets)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.pets)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.child)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.child)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
