@@ -134,19 +134,6 @@ namespace TestExample.DB
         //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("CLR_GetCountOrderTypesPipe");
         //}
 
-        //public virtual int ConfirmOrder(Nullable<long> id_order, Nullable<int> code)
-        //{
-        //    var id_orderParameter = id_order.HasValue ?
-        //        new ObjectParameter("id_order", id_order) :
-        //        new ObjectParameter("id_order", typeof(long));
-
-        //    var codeParameter = code.HasValue ?
-        //        new ObjectParameter("code", code) :
-        //        new ObjectParameter("code", typeof(int));
-
-        //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ConfirmOrder", id_orderParameter, codeParameter);
-        //}
-
         //public virtual int DeleteOrder(Nullable<long> id_order, Nullable<int> code)
         //{
         //    var id_orderParameter = id_order.HasValue ?
@@ -158,43 +145,6 @@ namespace TestExample.DB
         //        new ObjectParameter("code", typeof(int));
 
         //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteOrder", id_orderParameter, codeParameter);
-        //}
-
-        //public virtual int MakeOrder(string id_client, Nullable<int> id_order_type, Nullable<double> start_point_lat, Nullable<double> start_point_long, Nullable<double> end_point_lat, Nullable<double> end_point_long, Nullable<bool> child, Nullable<bool> pets, ObjectParameter id_order, ObjectParameter sec_code)
-        //{
-        //    var id_clientParameter = id_client != null ?
-        //        new ObjectParameter("id_client", id_client) :
-        //        new ObjectParameter("id_client", typeof(string));
-
-        //    var id_order_typeParameter = id_order_type.HasValue ?
-        //        new ObjectParameter("id_order_type", id_order_type) :
-        //        new ObjectParameter("id_order_type", typeof(int));
-
-        //    var start_point_latParameter = start_point_lat.HasValue ?
-        //        new ObjectParameter("start_point_lat", start_point_lat) :
-        //        new ObjectParameter("start_point_lat", typeof(double));
-
-        //    var start_point_longParameter = start_point_long.HasValue ?
-        //        new ObjectParameter("start_point_long", start_point_long) :
-        //        new ObjectParameter("start_point_long", typeof(double));
-
-        //    var end_point_latParameter = end_point_lat.HasValue ?
-        //        new ObjectParameter("end_point_lat", end_point_lat) :
-        //        new ObjectParameter("end_point_lat", typeof(double));
-
-        //    var end_point_longParameter = end_point_long.HasValue ?
-        //        new ObjectParameter("end_point_long", end_point_long) :
-        //        new ObjectParameter("end_point_long", typeof(double));
-
-        //    var childParameter = child.HasValue ?
-        //        new ObjectParameter("child", child) :
-        //        new ObjectParameter("child", typeof(bool));
-
-        //    var petsParameter = pets.HasValue ?
-        //        new ObjectParameter("pets", pets) :
-        //        new ObjectParameter("pets", typeof(bool));
-
-        //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("MakeOrder", id_clientParameter, id_order_typeParameter, start_point_latParameter, start_point_longParameter, end_point_latParameter, end_point_longParameter, childParameter, petsParameter, id_order, sec_code);
         //}
 
         //public virtual ObjectResult<NotAcceptedOrdersForDriver_Result> NotAcceptedOrdersForDriver(Nullable<long> id_turns)
@@ -215,7 +165,7 @@ namespace TestExample.DB
         //    return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RegisterClient", id_phone_numberParameter);
         //}
 
-        public virtual int RegisterDriverFromNumber(string phone_number, string pass_hash, string first_name, string second_name, Nullable<System.DateTime> birth_date, Nullable<bool> sex_male, string pass_number, string email)
+        public virtual int RegisterDriverFromNumber(string phone_number, string pass_hash, string first_name, string second_name, System.DateTime birth_date, bool sex_male, string pass_number, string email)
         {
             List<SqlParameter> parametrs = new List<SqlParameter>();
             parametrs.Add(new SqlParameter("@phone_number", phone_number));
@@ -257,6 +207,56 @@ namespace TestExample.DB
                 "@code", parametrs);
         }
 
-        public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.MakeOrder> MakeOrder { get; set; }
+        public virtual int MakeOrder(string id_client, int id_order_type, double start_point_lat, double start_point_long, 
+            double end_point_lat, double end_point_long, bool child, bool pets)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_client", id_client));
+            parametrs.Add(new SqlParameter("@id_order_type", id_order_type));
+            parametrs.Add(new SqlParameter("@start_point_lat", start_point_lat));
+            parametrs.Add(new SqlParameter("@start_point_long", start_point_long));
+            parametrs.Add(new SqlParameter("@end_point_lat", end_point_lat));
+            parametrs.Add(new SqlParameter("@end_point_long", end_point_long));
+            parametrs.Add(new SqlParameter("@child", child));
+            parametrs.Add(new SqlParameter("@pets", pets));
+            parametrs.Add(new SqlParameter
+            {
+                ParameterName = "@id_order",
+                SqlDbType = SqlDbType.Int,
+                Direction = ParameterDirection.Output,
+            });
+            parametrs.Add(new SqlParameter
+            {
+                ParameterName = "@sec_code",
+                SqlDbType = SqlDbType.Int,
+                Direction = ParameterDirection.Output,
+            });
+
+            this.Database.ExecuteSqlCommand("MakeOrder " +
+                "@id_client, " +
+                "@id_order_type, " +
+                "@start_point_lat, " +
+                "@start_point_long," +
+                "@end_point_lat," +
+                "@end_point_long," +
+                "@child," +
+                "@pets," +
+                "@id_order OUT," +
+                "@sec_code OUT", parametrs);
+            return (int)(parametrs[parametrs.Count - 2].Value);
+        }
+
+        public virtual int ConfirmOrder(long id_order, int code)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_order", id_order));
+            parametrs.Add(new SqlParameter("@code", code));
+
+            return Database.ExecuteSqlCommand("ConfirmOrder " +
+                "@id_order, " +
+                "@code", parametrs);
+        }
+
+        //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.MakeOrder> MakeOrder { get; set; }
     }
 }
