@@ -19,6 +19,7 @@ namespace TestExample.DB
         public Drivers()
         {
             this.Turns = new HashSet<Turns>();
+            this.Venichles = new HashSet<Venichles>();
         }
     
         public int id { get; set; }
@@ -37,5 +38,7 @@ namespace TestExample.DB
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Turns> Turns { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Venichles> Venichles { get; set; }
     }
 }

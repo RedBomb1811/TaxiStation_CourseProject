@@ -74,6 +74,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
         {
             if (ModelState.IsValid)
             {
+                ///TODO: добавление автомобилей
                 ///TODO: сделать проверку на возраст 18+
                 Drivers user = await _context.Drivers.FirstOrDefaultAsync(u => u.phone_number == model.Phone_number);
                 if (user == null)
@@ -148,8 +149,6 @@ namespace TaxiStation_Core2_EFCore.Controllers
             return RedirectToAction("Login", "Driver");
         }
         #endregion
-
-
 
 
         //public async Task<IActionResult> Index()

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<TestExample.DB.NotAcceptedOrdersForDriver_Result>
+
+@{
+    ViewData["Title"] = "MonitorOrders";
+}
+
+<h1>MonitorOrders</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id_client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rating)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.date_start_order)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.order_type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.start_point_lat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.start_point_long)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.end_point_lat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.end_point_long)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.child)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pets)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_client)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.rating)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.date_start_order)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => ((TestExample.DB.Order_types[])(ViewData["Order_types"]))[item.order_type-1].name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.start_point_lat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.start_point_long)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.end_point_lat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.end_point_long)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.child)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pets)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.order_id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.order_id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.order_id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

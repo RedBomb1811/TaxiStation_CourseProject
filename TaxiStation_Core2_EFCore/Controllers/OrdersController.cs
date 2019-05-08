@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,6 @@ namespace TaxiStation_Core2_EFCore.Controllers
             }
         }
 
-
         [HttpGet]
         [Route("Confirm")]
         public IActionResult ConfirmOrder()
@@ -58,16 +58,27 @@ namespace TaxiStation_Core2_EFCore.Controllers
 
         [HttpPost]
         [Route("Confirm")]
-        public IActionResult ConfirmOrderr(long Id_order, int Code)
+        public IActionResult ConfirmOrder(long Id_order, int Code)
         {
+            ///TODO: время начала заказа отсчитывается от момента подтверждения заказа
             if (Code > 0 && Id_order > 0)
                 if (_context.ConfirmOrder(Id_order, Code) == 1)
                     return RedirectToAction("Index", "Home");
 
             ModelState.AddModelError("", "Not correct code, try again");
-            // ????????????
             ViewData["Id_order"] = Id_order;
             return View("ConfirmOrder");
+        }
+
+        [HttpGet]
+        [Route("Monitor")]
+        [Authorize]
+        public IActionResult MonitorOrders()
+        {
+            ///TODO: изменить тип возвращаемого значения NotAcceptedOrdersForDriver в БД
+            ViewData["Order_types"] = _context.Order_types.ToArray();
+            IEnumerable<NotAcceptedOrdersForDriver_Result> list = _context.NotAcceptedOrdersForDriver(2);
+            return View("MonitorOrders", list);
         }
 
     }

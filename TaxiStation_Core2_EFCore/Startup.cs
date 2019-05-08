@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TaxiStation_Core2_EFCore.BackgroundTasks;
 using TaxiStation_Core2_EFCore.Models.Registrarion;
 using TestExample.DB;
 
@@ -26,19 +27,20 @@ namespace TaxiStation_Core2_EFCore
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<TaxiStationContext>(options => options.UseSqlServer(
                 Configuration.GetConnectionString("TaxiStationConnection")));
 
-            // установка конфигурации подключения
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Drivers/Login");
                 });
             services.AddMvc();
+
+            // backgound worker
+            //services.AddHostedService<WorkerHostedService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -26,7 +26,8 @@ namespace TestExample.DB
         public bool pets { get; set; }
         public string model { get; set; }
         public int venicle_type { get; set; }
-    
+
+        public virtual Drivers Drivers { get; set; }
         public virtual Order_types Order_types { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Turns> Turns { get; set; }
