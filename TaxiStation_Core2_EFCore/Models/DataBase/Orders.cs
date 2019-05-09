@@ -33,7 +33,7 @@ namespace TestExample.DB
         public bool confirmed { get; set; }
         public bool pets { get; set; }
         public bool child { get; set; }
-    
+
         public virtual Clients Clients { get; set; }
         public virtual Order_types Order_types { get; set; }
         public virtual Turns Turns { get; set; }

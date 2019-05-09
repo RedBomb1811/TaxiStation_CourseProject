@@ -22,6 +22,14 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
 
         [HttpGet]
+        [Route("Index")]
+        public IActionResult Index()
+        {
+
+            return View("Index", _context.Orders.ToList());
+        }
+
+        [HttpGet]
         [Route("MakeOrder")]
         public IActionResult MakeOrder()
         {
@@ -75,11 +83,8 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [Authorize]
         public IActionResult MonitorOrders()
         {
-            ///TODO: изменить тип возвращаемого значения NotAcceptedOrdersForDriver в БД
-            ViewData["Order_types"] = _context.Order_types.ToArray();
             IEnumerable<NotAcceptedOrdersForDriver_Result> list = _context.NotAcceptedOrdersForDriver(2);
             return View("MonitorOrders", list);
         }
-
     }
 }

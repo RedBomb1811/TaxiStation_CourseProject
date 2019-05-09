@@ -1,0 +1,57 @@
+﻿@model IEnumerable<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.child)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pets)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.id_venichle_type)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.number)/td>
+            <td>
+                @Html.DisplayFor(modelItem => item.child)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pets)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.model)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => (ViewData["Id_venicle_type"] as List<TestExample.DB.Order_types>)[item.id_venichle_type+1].name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-controller="Venichle" asp-route-id="@item.number">Edit</a> |
+                <a asp-action="Delete" asp-controller="Venichle" asp-route-id="@item.number">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

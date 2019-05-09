@@ -20,6 +20,7 @@ namespace TestExample.DB
         public double rating { get; set; }
         public System.DateTime date_start_order { get; set; }
         public int order_type { get; set; }
+        public string order_type_name { get; set; }
         public double start_point_lat { get; set; }
         public double start_point_long { get; set; }
         public double end_point_lat { get; set; }

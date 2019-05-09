@@ -23,9 +23,7 @@ namespace TestExample.DB
     public partial class TaxiStationContext : DbContext
     {
         public TaxiStationContext(DbContextOptions<TaxiStationContext> options)
-            : base(options)
-        {
-        }
+            : base(options) { }
 
         public virtual DbSet<Body_types> Body_types { get; set; }
         public virtual DbSet<Clients> Clients { get; set; }
@@ -276,12 +274,13 @@ namespace TestExample.DB
                                 rating = result.GetDouble(2),
                                 date_start_order = result.GetDateTime(3),
                                 order_type = result.GetInt32(4),
-                                start_point_lat = result.GetDouble(5),
-                                start_point_long = result.GetDouble(6),
-                                end_point_lat = result.GetDouble(7),
-                                end_point_long = result.GetDouble(8),
-                                child = result.GetBoolean(9),
-                                pets = result.GetBoolean(10)
+                                order_type_name = result.GetString(5),
+                                start_point_lat = result.GetDouble(6),
+                                start_point_long = result.GetDouble(7),
+                                end_point_lat = result.GetDouble(8),
+                                end_point_long = result.GetDouble(9),
+                                child = result.GetBoolean(10),
+                                pets = result.GetBoolean(11)
                             });
                         }
                     }
@@ -289,7 +288,10 @@ namespace TestExample.DB
                 return list; // (IEnumerable<NotAcceptedOrdersForDriver_Result>)command.ExecuteReader();
             }
         }
-        public DbSet<TestExample.DB.NotAcceptedOrdersForDriver_Result> NotAcceptedOrdersForDriver_Result { get; set; }
+
+        //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle> AddVenichle { get; set; }
+        //public DbSet<TestExample.DB.NotAcceptedOrdersForDriver_Result> NotAcceptedOrdersForDriver_Result { get; set; }
+        //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle> AddVenichle { get; set; }
 
         //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.MakeOrder> MakeOrder { get; set; }
     }

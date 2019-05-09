@@ -40,3 +40,6 @@ D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netc
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Orders\MakeOrder.g.cshtml.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Orders\ConfirmOrder.g.cshtml.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Orders\MonitorOrders.g.cshtml.cs
+D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Venichles\AddVenichle.g.cshtml.cs
+D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Venichles\Index.g.cshtml.cs
+D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Venichles\Edit.g.cshtml.cs

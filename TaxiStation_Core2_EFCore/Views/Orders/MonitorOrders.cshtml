@@ -22,7 +22,7 @@
                 @Html.DisplayNameFor(model => model.date_start_order)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.order_type)
+                @Html.DisplayNameFor(model => model.order_type_name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.start_point_lat)
@@ -58,7 +58,7 @@
                 @Html.DisplayFor(modelItem => item.date_start_order)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => ((TestExample.DB.Order_types[])(ViewData["Order_types"]))[item.order_type-1].name)
+                @Html.DisplayFor(modelItem => item.order_type_name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.start_point_lat)
