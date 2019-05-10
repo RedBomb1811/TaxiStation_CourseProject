@@ -289,6 +289,8 @@ namespace TestExample.DB
             }
         }
 
+        public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle> AddVenichle { get; set; }
+
         //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle> AddVenichle { get; set; }
         //public DbSet<TestExample.DB.NotAcceptedOrdersForDriver_Result> NotAcceptedOrdersForDriver_Result { get; set; }
         //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle> AddVenichle { get; set; }

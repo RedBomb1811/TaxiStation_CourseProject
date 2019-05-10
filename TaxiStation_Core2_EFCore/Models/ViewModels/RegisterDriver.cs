@@ -46,6 +46,5 @@ namespace TaxiStation_Core2_EFCore.Models.Registrarion
         [Display(Name = "Повторите пароль")]
         [DataType(DataType.Password)]
         public string Password_confirm { get; set; }
-
     }
 }

@@ -11,7 +11,9 @@ namespace TestExample.DB
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public partial class Venichles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -19,7 +21,8 @@ namespace TestExample.DB
         {
             this.Turns = new HashSet<Turns>();
         }
-    
+        
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int id { get; set; }
         public string id_driver { get; set; }
         public string number { get; set; }
@@ -28,8 +31,10 @@ namespace TestExample.DB
         public string model { get; set; }
         public int venicle_type { get; set; }
 
-        //public virtual Drivers Drivers { get; set; }
-        //public virtual Order_types Order_types { get; set; }
+        [ForeignKey("id_driver")]
+        public virtual Drivers Drivers { get; set; }
+        [ForeignKey("venicle_type")]
+        public virtual Order_types Order_types { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Turns> Turns { get; set; }
     }

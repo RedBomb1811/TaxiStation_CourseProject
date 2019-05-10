@@ -7,7 +7,7 @@
 <h1>Index</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Add" asp-controller="Venichle">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -34,7 +34,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.number)/td>
+                @Html.DisplayFor(modelItem => item.number)
             <td>
                 @Html.DisplayFor(modelItem => item.child)
             </td>
@@ -45,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.model)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => (ViewData["Id_venicle_type"] as List<TestExample.DB.Order_types>)[item.id_venichle_type+1].name)
+                @Html.DisplayFor(modelItem => (ViewData["id_venicle_type"] as List<TestExample.DB.Order_types>)[item.id_venichle_type-1].name)
             </td>
             <td>
                 <a asp-action="Edit" asp-controller="Venichle" asp-route-id="@item.number">Edit</a> |

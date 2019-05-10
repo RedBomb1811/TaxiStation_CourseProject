@@ -22,7 +22,7 @@ namespace TestExample.DB
     
         public long id { get; set; }
         public int id_venichle { get; set; }
-        public int id_driver { get; set; }
+        public string id_driver { get; set; }
         public System.DateTime date_start { get; set; }
         public Nullable<System.DateTime> date_end { get; set; }
     

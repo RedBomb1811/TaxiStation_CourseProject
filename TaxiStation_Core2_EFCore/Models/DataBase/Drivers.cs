@@ -12,7 +12,8 @@ namespace TestExample.DB
     using Microsoft.AspNetCore.Identity;
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Drivers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +22,9 @@ namespace TestExample.DB
             this.Turns = new HashSet<Turns>();
             this.Venichles = new HashSet<Venichles>();
         }
-    
-        public int id { get; set; }
+
+        [Key]
+        public string id { get; set; }
         public string first_name { get; set; }
         public string second_name { get; set; }
         public System.DateTime birth_date { get; set; }
