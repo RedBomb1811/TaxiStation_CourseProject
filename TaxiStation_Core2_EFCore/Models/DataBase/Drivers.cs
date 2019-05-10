@@ -23,12 +23,14 @@ namespace TestExample.DB
             this.Venichles = new HashSet<Venichles>();
         }
 
-        [Key]
-        public string id { get; set; }
+        //[Key]
+        //public string id { get; set; }
         public string first_name { get; set; }
         public string second_name { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public System.DateTime birth_date { get; set; }
         public bool sex { get; set; }
+        [Key]
         public string phone_number { get; set; }
         public string pass_number { get; set; }
         public int rating_sum { get; set; }

@@ -12,6 +12,8 @@ namespace TaxiStation_Core2_EFCore.Controllers
     {
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Profile", "Driver");
             return View();
         }
 

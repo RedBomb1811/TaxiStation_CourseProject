@@ -1,0 +1,63 @@
+﻿@model TestExample.DB.Drivers
+
+@{
+    ViewData["Title"] = "Профиль";
+}
+
+<h1>Ваш профиль</h1>
+
+<div>
+    <h4>
+       @Html.ActionLink("Начать смену", "Start", "Turn")
+    </h4>
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            Имя:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.second_name) @Html.DisplayFor(model => model.first_name)
+        </dd>
+        <dt class="col-sm-2">
+            Номер телефона: 
+        </dt>
+        <dd class="col-sm-10">
+            +@Html.DisplayFor(model => model.phone_number)
+        </dd>
+        <dt class="col-sm-2">
+            Рейтинг:
+        </dt>
+        <dd class="col-sm-10">
+            @ViewData["rating"]
+        </dd>
+        <dt class="col-sm-2">
+            Дата рождения:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.birth_date)
+        </dd>
+        <dt class="col-sm-2">
+            Мужчина
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.sex)
+        </dd>
+        <dt class="col-sm-2">
+            Номер паспорта:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.pass_number)
+        </dd>
+        <dt class="col-sm-2">
+            Почта:
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.email)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Выйти", "Logout", "Driver")
+    <br />
+</div>

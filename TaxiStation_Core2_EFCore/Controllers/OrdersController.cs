@@ -83,7 +83,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [Authorize]
         public IActionResult MonitorOrders()
         {
-            IEnumerable<NotAcceptedOrdersForDriver_Result> list = _context.NotAcceptedOrdersForDriver(2);
+            IEnumerable<NotAcceptedOrdersForDriver_Result> list = _context.NotAcceptedOrdersForDriver(User.Identity.Name);
             return View("MonitorOrders", list);
         }
     }

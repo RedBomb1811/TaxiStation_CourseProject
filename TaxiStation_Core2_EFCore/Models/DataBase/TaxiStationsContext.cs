@@ -248,7 +248,7 @@ namespace TestExample.DB
                 "@code", parametrs);
         }
 
-        public virtual IEnumerable<NotAcceptedOrdersForDriver_Result> NotAcceptedOrdersForDriver(long id_turns)
+        public virtual IEnumerable<NotAcceptedOrdersForDriver_Result> NotAcceptedOrdersForDriver(string id_driver)
         {
             List<NotAcceptedOrdersForDriver_Result> list = new List<NotAcceptedOrdersForDriver_Result>();
             using (var command = Database.GetDbConnection().CreateCommand()) {
@@ -256,8 +256,8 @@ namespace TestExample.DB
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 var param_id_turns = command.CreateParameter();
-                param_id_turns.ParameterName = "id_turns";
-                param_id_turns.Value = id_turns;
+                param_id_turns.ParameterName = "id_driver";
+                param_id_turns.Value = id_driver;
                 command.Parameters.Add(param_id_turns);
 
                 Database.OpenConnection();
@@ -289,12 +289,42 @@ namespace TestExample.DB
             }
         }
 
-        public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle> AddVenichle { get; set; }
+        public virtual int StartTurn(string id_driver, int id_vehicle)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_driver", id_driver));
+            parametrs.Add(new SqlParameter("@id_vehicle", id_vehicle));
 
-        //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle> AddVenichle { get; set; }
-        //public DbSet<TestExample.DB.NotAcceptedOrdersForDriver_Result> NotAcceptedOrdersForDriver_Result { get; set; }
-        //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.AddVenichle> AddVenichle { get; set; }
+            return Database.ExecuteSqlCommand("StartTurn " +
+                "@id_driver, " +
+                "@id_vehicle", parametrs);
+        }
 
-        //public DbSet<TaxiStation_Core2_EFCore.Models.ViewModels.MakeOrder> MakeOrder { get; set; }
+        public virtual int EndTurn(string id_driver)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_driver", id_driver));
+
+            return Database.ExecuteSqlCommand("EndTurn " +
+                "@id_driver", parametrs);
+        }
+
+        public virtual long GetActiveTurnForDriver(string id_driver)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_driver", id_driver));
+            parametrs.Add(new SqlParameter
+            {
+                ParameterName = "@id_turn",
+                SqlDbType = SqlDbType.BigInt,
+                Direction = ParameterDirection.Output,
+            });
+
+            this.Database.ExecuteSqlCommand("GetActiveTurnForDriver " +
+                "@id_driver, " +
+                "@id_turn OUT", parametrs);
+            return (int)(parametrs[parametrs.Count - 1].Value);
+        }
+
     }
 }

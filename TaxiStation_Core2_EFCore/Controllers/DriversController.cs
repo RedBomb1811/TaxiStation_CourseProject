@@ -150,6 +150,15 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
         #endregion
 
+        [HttpGet]
+        [Route("Profile")]
+        public IActionResult Profile()
+        {
+            Drivers dr = _context.Drivers.First(u => u.phone_number.Equals(User.Identity.Name));
+            ViewData["rating"] = dr.rating_sum / dr.rating_count;
+            return View("Profile", dr);
+        }
+
 
         //public async Task<IActionResult> Index()
         //{
