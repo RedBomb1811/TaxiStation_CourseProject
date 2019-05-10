@@ -42,23 +42,6 @@ namespace TaxiStation_Core2_EFCore.Controllers
             return View("Index", list);
         }
 
-        //public async Task<IActionResult> Details(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var addVenichle = await _context.AddVenichle
-        //        .FirstOrDefaultAsync(m => m.number == id);
-        //    if (addVenichle == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(addVenichle);
-        //}
-
         [HttpGet]
         [Route("Add")]
         public IActionResult Add()
@@ -84,7 +67,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
                 });
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("Index", "Venichle");
+                return RedirectToAction("Index");
             }
             return View("AddVenichle");
         }
@@ -135,17 +118,6 @@ namespace TaxiStation_Core2_EFCore.Controllers
                     ven.venicle_type = addVenichle.id_venichle_type;
 
                     _context.Update(ven);
-
-                    //_context.Update(new Venichles()
-                    //{
-                    //    id_driver = User.Identity.Name,
-                    //    number = addVenichle.number,
-                    //    child = addVenichle.child,
-                    //    pets = addVenichle.pets,
-                    //    model = addVenichle.model,
-                    //    venicle_type = addVenichle.id_venichle_type
-                    //});
-
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -158,24 +130,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
 
         [HttpGet]
-        [ActionName("Delete/{id}")]
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var addVenichle = await _context.AddVenichle.FirstOrDefaultAsync(m => m.number == id);
-            if (addVenichle == null)
-            {
-                return NotFound();
-            }
-
-            return RedirectToAction("Delete", id);
-        }
-        [HttpPost]
-        [ActionName("Delete/{id}")]
+        [Route("Delete/{id}")]
         public async Task<IActionResult> DeleteConfirm(string id)
         {
             var venichle = _context.Venichles.First(u => u.number == id);
