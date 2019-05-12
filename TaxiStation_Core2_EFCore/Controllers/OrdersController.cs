@@ -84,12 +84,12 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
 
         [HttpGet]
-        [Route("EndOrder/{id_order}/{id_client}/{sec_code}")]
-        public IActionResult EndOrderFromClient(long id_order, string id_client, int sec_code)
+        [Route("EndOrder/{id_order}/{sec_code}")]
+        public IActionResult EndOrderFromClient(long id_order, int sec_code)
         {
             try
             {
-                _context.ClientConfirmEnd(id_client, id_order);
+                _context.ClientConfirmEnd(id_order, sec_code);
                 return RedirectToAction("Stars");
             }
             catch (Exception err)
@@ -118,8 +118,8 @@ namespace TaxiStation_Core2_EFCore.Controllers
 
         //https://localhost:44369/Info/10007/6484
         [HttpGet]
-        [Route("Info/{id_order}/{sec_code}")]
-        public IActionResult AcceptedOrderInfoForClient(string id_order, string sec_code)
+        [Route("Info/{id_order:long}/{sec_code:int}")]
+        public IActionResult AcceptedOrderInfoForClient(long id_order, int sec_code)
         {
             try
             {

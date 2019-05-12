@@ -365,14 +365,14 @@ namespace TestExample.DB
                 "@id_order", parametrs);
         }
 
-        public virtual int ClientConfirmEnd(string id_client, long id_order)
+        public virtual int ClientConfirmEnd(long id_order, int sec_code)
         {
             List<SqlParameter> parametrs = new List<SqlParameter>();
-            parametrs.Add(new SqlParameter("@id_client", id_client));
             parametrs.Add(new SqlParameter("@id_order", id_order));
+            parametrs.Add(new SqlParameter("@sec_code", sec_code));
 
             return Database.ExecuteSqlCommand("ClientConfirmEnd " +
-                "@id_driver, " +
+                "@sec_code, " +
                 "@id_order", parametrs);
         }
 
