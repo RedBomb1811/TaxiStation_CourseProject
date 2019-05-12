@@ -13,8 +13,10 @@
         <form asp-action="Start" asp-controller="Turn">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="id_venichle" class="control-label"></label>
+                <label asp-for="id_venichle" class="control-label">Выберите автомобиль</label>
                 <select name="id_venichle" asp-for="id_venichle" class="form-control" asp-items="ViewBag.id_venichle"></select>
+
+                <a asp-action="Index" asp-controller="Venichle">Просмотреть все</a>
             </div>
             <div class="form-group">
                 <input type="submit" value="Начать" class="btn btn-primary" />

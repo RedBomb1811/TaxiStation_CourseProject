@@ -285,7 +285,7 @@ namespace TestExample.DB
                         }
                     }
                 }
-                return list; // (IEnumerable<NotAcceptedOrdersForDriver_Result>)command.ExecuteReader();
+                return list;
             }
         }
 
@@ -324,6 +324,34 @@ namespace TestExample.DB
                 "@id_driver, " +
                 "@id_turn OUT", parametrs);
             return (int)(parametrs[parametrs.Count - 1].Value);
+        }
+
+        public virtual long GetActiveOrderForClient(string id_driver)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_client", id_driver));
+            parametrs.Add(new SqlParameter
+            {
+                ParameterName = "@id_order",
+                SqlDbType = SqlDbType.BigInt,
+                Direction = ParameterDirection.Output,
+            });
+
+            this.Database.ExecuteSqlCommand("GetActiveOrderForClient " +
+                "@id_client, " +
+                "@id_order OUT", parametrs);
+            return (int)(parametrs[parametrs.Count - 1].Value);
+        }
+
+        public virtual int AcceptOrder(string id_driver, long id_order)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_driver", id_driver));
+            parametrs.Add(new SqlParameter("@id_order", id_order));
+
+            return Database.ExecuteSqlCommand("AcceptOrder " +
+                "@id_driver, " +
+                "@id_order", parametrs);
         }
 
     }

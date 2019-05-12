@@ -45,3 +45,4 @@ D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netc
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Venichles\Edit.g.cshtml.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Turns\Start.g.cshtml.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Drivers\Profile.g.cshtml.cs
+D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Orders\StartOrder.g.cshtml.cs

@@ -14,10 +14,11 @@ namespace TestExample.DB
     using System.ComponentModel.DataAnnotations;
     using Microsoft.EntityFrameworkCore.SqlServer;
     using NetTopologySuite.Geometries;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public partial class Orders
     {
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long id { get; set; }
         public string id_client { get; set; }
         public Nullable<long> id_turns { get; set; }
@@ -33,9 +34,14 @@ namespace TestExample.DB
         public bool confirmed { get; set; }
         public bool pets { get; set; }
         public bool child { get; set; }
+        public bool driver_confirm_end { get; set; }
+        public bool client_confirm_end { get; set; }
 
+        [ForeignKey("id_client")]
         public virtual Clients Clients { get; set; }
+        [ForeignKey("id_order_type")]
         public virtual Order_types Order_types { get; set; }
+        [ForeignKey("id_turns")]
         public virtual Turns Turns { get; set; }
     }
 }

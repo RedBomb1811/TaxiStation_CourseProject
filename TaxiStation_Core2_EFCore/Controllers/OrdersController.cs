@@ -68,10 +68,9 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [Route("Confirm")]
         public IActionResult ConfirmOrder(long Id_order, int Code)
         {
-            ///TODO: время начала заказа отсчитывается от момента подтверждения заказа
             if (Code > 0 && Id_order > 0)
                 if (_context.ConfirmOrder(Id_order, Code) == 1)
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Start", "Order", _context.Orders.First(u=>u.id == Id_order));
 
             ModelState.AddModelError("", "Not correct code, try again");
             ViewData["Id_order"] = Id_order;
@@ -83,8 +82,59 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [Authorize]
         public IActionResult MonitorOrders()
         {
-            IEnumerable<NotAcceptedOrdersForDriver_Result> list = _context.NotAcceptedOrdersForDriver(User.Identity.Name);
-            return View("MonitorOrders", list);
+            return View("MonitorOrders");
         }
+
+        [HttpGet]
+        [Route("GetListOfOrders")]
+        [Authorize]
+        public JsonResult ListOfOrders()
+        {
+            IEnumerable<NotAcceptedOrdersForDriver_Result> list = _context.NotAcceptedOrdersForDriver(User.Identity.Name);
+            return Json(list.OrderByDescending(u => u.date_start_order));
+        }
+
+        [HttpGet]
+        [Route("Accept/{id_order}")]
+        [Authorize]
+        public IActionResult AcceptOrder(long id_order)
+        {
+            //try
+            //{
+            //_context.AcceptOrder(User.Identity.Name, id_order);
+            var a = _context.Orders.Find(id_order);
+            return View("StartOrder", a);//.First(u=>u.id == id_order));
+            //}
+            //catch (Exception err)
+            //{
+            //    ModelState.AddModelError("", err.Message);
+            //    return RedirectToAction("MonitorOrders", "Order");
+            //}
+        }
+
+        [HttpGet]
+        [Route("EndOrder/{id_order}")]
+        public IActionResult EndOrder(long id_order)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+
+            }
+            else
+            {
+
+            }
+            try
+            {
+                //_context.AcceptOrder(User.Identity.Name, id_order);
+                return View("StartOrder");
+            }
+            catch (Exception err)
+            {
+                ModelState.AddModelError("", err.Message);
+                return RedirectToAction("MonitorOrders", "Order");
+            }
+        }
+
     }
 }

@@ -2,8 +2,13 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div class="text-center">
+    <h1 class="display-4">Добро пожаловать</h1>
+    <br />
+    <br />
+</div>
 <div class="text-left">
-
+    <h4 class="display-4">@Html.ActionLink("Сделать заказ", "MakeOrder", "Order")</h4>
 </div>
 <div class="text-right">
     @{
@@ -16,20 +21,11 @@
             <p></p>
         }
     }
-    <h1 class="display-4">Welcome</h1>
-    @{
-        if (User.Identity.IsAuthenticated)
-        {
-            <p>@Html.Label(User.Identity.Name)</p>
-        }
-        else
-        {
-            <p></p>
-        }
-    }
-    @Html.ActionLink("Стать водителем", "Register", "Driver")
+    <h3>@Html.ActionLink("Стать водителем", "Register", "Driver")</h3>
     <br />
-    @Html.ActionLink("Войти", "Login", "Driver")
+    <h3>
+        @Html.ActionLink("Войти", "Login", "Driver")
+    </h3>
     <br />
 </div>
 

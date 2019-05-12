@@ -46,8 +46,8 @@
             <th></th>
         </tr>
     </thead>
-    <tbody>
-@foreach (var item in Model) {
+    <tbody id="tbody_orders">
+@*@foreach (var item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.id_client)
@@ -80,11 +80,52 @@
                 @Html.DisplayFor(modelItem => item.pets)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.order_id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.order_id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.order_id">Delete</a>
+                <a asp-action="Accept" asp-controller="Order" asp-route-id="@item.id_client">Принять</a>
             </td>
         </tr>
-}
+}*@
     </tbody>
+
 </table>
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadData();
+        setInterval(loadData, 1000 * 5);
+    });
+
+    function loadData() {
+        $.ajax({
+            url: "/Order/GetListOfOrders",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<tr>';
+                    html += '<td>' + item.id_client + '</td>';
+                    html += '<td>' + item.rating + '</td>';
+                    var d = new Date(item.date_start_order);
+                    var datestring = "<b>"+("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2) + "</b> " +
+                        ("0" + d.getDate()).slice(-2) + "-" + ("0" + (d.getMonth() + 1)).slice(-2) + "-" + d.getFullYear();
+                    html += '<td>' + datestring + '</td>';
+                    html += '<td>' + item.order_type_name + '</td>';
+                    html += '<td>' + item.start_point_lat + '</td>';
+                    html += '<td>' + item.start_point_long + '</td>';
+                    html += '<td>' + item.end_point_lat + '</td>';
+                    html += '<td>' + item.end_point_long + '</td>';
+                    html += '<td>' + '<input type="checkbox" class="custom-checkbox" disabled="disabled" ' + (item.child?'checked="checked"':'') + '/>' + '</td>';
+                    html += '<td>' + '<input type="checkbox" class="custom-checkbox" disabled="disabled" ' + (item.pets?'checked="checked"':'') + '/>' + '</td>';
+                    html += '<td>' + '<a href="/Order/Accept/' + item.order_id + '">Принять</a>' + '</td>';
+                    html += '</tr>';
+                });
+                $('#tbody_orders').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

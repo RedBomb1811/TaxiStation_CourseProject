@@ -23,7 +23,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
 
         [HttpGet]
-        [Route("Index")]
+        //[Route("Index")]
         public IActionResult Index()
         {
             ViewData["id_venicle_type"] = _context.Order_types.ToList();
