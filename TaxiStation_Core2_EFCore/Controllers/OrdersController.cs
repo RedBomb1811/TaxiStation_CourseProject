@@ -21,14 +21,15 @@ namespace TaxiStation_Core2_EFCore.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        [Route("Index")]
-        public IActionResult Index()
-        {
+        //[HttpGet]
+        //[Route("Index")]
+        //public IActionResult Index()
+        //{
 
-            return View("Index", _context.Orders.ToList());
-        }
+        //    return View("Index", _context.Orders.ToList());
+        //}
 
+#region Client
         [HttpGet]
         [Route("MakeOrder")]
         public IActionResult MakeOrder()
@@ -49,7 +50,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
                 ViewData["Id_order"] = id_order;
                 return View("ConfirmOrder");
             }
-            catch(Exception sqlException)
+            catch (Exception sqlException)
             {
                 ///TODO: обработка ошибки и вызврат существующего номера заказа
                 ModelState.AddModelError("", sqlException.Message);
@@ -70,13 +71,72 @@ namespace TaxiStation_Core2_EFCore.Controllers
         {
             if (Code > 0 && Id_order > 0)
                 if (_context.ConfirmOrder(Id_order, Code) == 1)
-                    return RedirectToAction("Start", "Order", _context.Orders.First(u=>u.id == Id_order));
-
+                {
+                    ViewData["id_order"] = Id_order;
+                    ViewData["sec_code"] = Code;
+                    return View("WaitDriver");
+                }
+                    //return AcceptedOrderInfoForClient(Id_order, Code);
+                    //return RedirectToAction("AcceptedOrderInfoForClient", "Order", _context.Orders.First(u => u.id == Id_order));
             ModelState.AddModelError("", "Not correct code, try again");
             ViewData["Id_order"] = Id_order;
             return View("ConfirmOrder");
         }
 
+        [HttpGet]
+        [Route("EndOrder/{id_order}/{id_client}/{sec_code}")]
+        public IActionResult EndOrderFromClient(long id_order, string id_client, int sec_code)
+        {
+            try
+            {
+                _context.ClientConfirmEnd(id_client, id_order);
+                return RedirectToAction("Stars");
+            }
+            catch (Exception err)
+            {
+                ModelState.AddModelError("", err.Message);
+                var a = _context.Orders.Find(id_order);
+                return View("StartOrder", a);
+            }
+        }
+
+        [HttpGet]
+        [Route("InfoJson/{id_order}/{sec_code}")]
+        public JsonResult AcceptedOrderInfoForClientJson(long id_order, int sec_code)
+        {
+            try
+            {
+                var a = _context.AcceptedOrderInfoForClientProc(id_order, sec_code);
+                return Json(a);
+            }
+            catch (Exception err)
+            {
+                ModelState.AddModelError("", err.Message);
+                return Json(null);
+            }
+        }
+
+        //https://localhost:44369/Info/10007/6484
+        [HttpGet]
+        [Route("Info/{id_order}/{sec_code}")]
+        public IActionResult AcceptedOrderInfoForClient(string id_order, string sec_code)
+        {
+            try
+            {
+                var a = _context.AcceptedOrderInfoForClientProc(Convert.ToInt64(id_order), Convert.ToInt32(sec_code));
+                return View("StartOrderClient", a);
+            }
+            catch (Exception err)
+            {
+                ModelState.AddModelError("", err.Message);
+                return View();
+            }
+
+        }
+        #endregion
+
+
+        #region Driver
         [HttpGet]
         [Route("Monitor")]
         [Authorize]
@@ -97,37 +157,13 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [HttpGet]
         [Route("Accept/{id_order}")]
         [Authorize]
-        public IActionResult AcceptOrder(long id_order)
+        public IActionResult AcceptOrderFromDriver(long id_order)
         {
-            //try
-            //{
-            //_context.AcceptOrder(User.Identity.Name, id_order);
-            var a = _context.Orders.Find(id_order);
-            return View("StartOrder", a);//.First(u=>u.id == id_order));
-            //}
-            //catch (Exception err)
-            //{
-            //    ModelState.AddModelError("", err.Message);
-            //    return RedirectToAction("MonitorOrders", "Order");
-            //}
-        }
-
-        [HttpGet]
-        [Route("EndOrder/{id_order}")]
-        public IActionResult EndOrder(long id_order)
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-
-            }
-            else
-            {
-
-            }
             try
             {
-                //_context.AcceptOrder(User.Identity.Name, id_order);
-                return View("StartOrder");
+                _context.AcceptOrder(User.Identity.Name, id_order);
+                var a = _context.Orders.Find(id_order);
+                return View("StartOrder", a);
             }
             catch (Exception err)
             {
@@ -136,5 +172,21 @@ namespace TaxiStation_Core2_EFCore.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("EndOrder/{id_order}")]
+        public IActionResult EndOrderFromDriver(long id_order)
+        {
+            try { 
+                _context.DriverConfirmEnd(User.Identity.Name, id_order);
+                return RedirectToAction("Stars");
+            }
+            catch (Exception err)
+            {
+                ModelState.AddModelError("", err.Message);
+                var a = _context.Orders.Find(id_order);
+                return View("StartOrder", a);
+            }
+        }
+#endregion
     }
 }

@@ -26,10 +26,10 @@ namespace TestExample.DB
         public Nullable<System.DateTime> date_start_trip { get; set; }
         public Nullable<System.DateTime> date_end_trip { get; set; }
         public int id_order_type { get; set; }
-        public float start_point_lat { get; set; }
-        public float start_point_long { get; set; }
-        public float end_point_lat { get; set; }
-        public float end_point_long { get; set; }
+        public double start_point_lat { get; set; }
+        public double start_point_long { get; set; }
+        public double end_point_lat { get; set; }
+        public double end_point_long { get; set; }
         public int security_code { get; set; }
         public bool confirmed { get; set; }
         public bool pets { get; set; }

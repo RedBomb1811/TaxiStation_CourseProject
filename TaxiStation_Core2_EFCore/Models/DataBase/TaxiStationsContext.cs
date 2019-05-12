@@ -354,5 +354,77 @@ namespace TestExample.DB
                 "@id_order", parametrs);
         }
 
+        public virtual int DriverConfirmEnd(string id_driver, long id_order)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_driver", id_driver));
+            parametrs.Add(new SqlParameter("@id_order", id_order));
+
+            return Database.ExecuteSqlCommand("DriverConfirmEnd " +
+                "@id_driver, " +
+                "@id_order", parametrs);
+        }
+
+        public virtual int ClientConfirmEnd(string id_client, long id_order)
+        {
+            List<SqlParameter> parametrs = new List<SqlParameter>();
+            parametrs.Add(new SqlParameter("@id_client", id_client));
+            parametrs.Add(new SqlParameter("@id_order", id_order));
+
+            return Database.ExecuteSqlCommand("ClientConfirmEnd " +
+                "@id_driver, " +
+                "@id_order", parametrs);
+        }
+
+        public virtual AcceptedOrderInfoForClient AcceptedOrderInfoForClientProc(long id_order, int sec_code)
+        {
+            AcceptedOrderInfoForClient order = null;
+            using (var command = Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = "AcceptedOrderInfoForClientProc";
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                var param_id_turns = command.CreateParameter();
+                param_id_turns.ParameterName = "id_order";
+                param_id_turns.Value = id_order;
+                command.Parameters.Add(param_id_turns);
+
+                var param_sec_code = command.CreateParameter();
+                param_sec_code.ParameterName = "sec_code";
+                param_sec_code.Value = sec_code;
+                command.Parameters.Add(param_sec_code);
+
+                Database.OpenConnection();
+                using (var result = command.ExecuteReader())
+                {
+                    if (result.HasRows)
+                    {
+                        while (result.Read())
+                        {
+                            order = new AcceptedOrderInfoForClient()
+                            {
+                                order_id = result.GetInt64(0),
+                                id_client = result.GetString(1),
+                                date_start_order = result.GetDateTime(2),
+                                name = result.GetString(3),
+                                rate = result.GetDouble(4),
+                                start_point_lat = result.GetDouble(5),
+                                start_point_long = result.GetDouble(6),
+                                end_point_lat = result.GetDouble(7),
+                                end_point_long = result.GetDouble(8),
+                                child = result.GetBoolean(9),
+                                pets = result.GetBoolean(10),
+                                driver_id = result.GetString(11),
+                                driver_name = result.GetString(12),
+                                rating = result.GetDouble(13),
+                                model = result.GetString(14),
+                                number = result.GetString(15)
+                            };
+                        }
+                    }
+                }
+                return order;
+            }
+        }
     }
 }
