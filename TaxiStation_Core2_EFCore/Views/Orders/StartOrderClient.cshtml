@@ -109,5 +109,5 @@
     </dl>
 </div>
 <div>
-    <input type="button" class="btn-block" asp-action="EndOrder" asp-controller="Order" asp-route-id_order="@Model.order_id" asp-route-id_client="@Model.id_client" value="Завершить поезку" />
+    <a class="nav-link text-dark" href="/Order/EndOrder/@(Model.order_id)/@(ViewData["sec_code"])">Завершить поездку</a>
 </div>

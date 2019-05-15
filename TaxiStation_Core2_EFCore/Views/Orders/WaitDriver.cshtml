@@ -9,9 +9,9 @@
 <script src="~/lib/jquery/dist/jquery.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
-        window.location.replace('/Order/Info/@ViewData["id_order"]/@ViewData["sec_code"]')
-        //loadData();
-        //setInterval(loadData, 1000 * 5);
+        @*window.location.replace('/Order/Info/@ViewData["id_order"]/@ViewData["sec_code"]')*@
+        loadData();
+        setInterval(loadData, 1000 * 5);
     });
 
     function loadData() {

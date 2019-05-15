@@ -29,7 +29,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
         //    return View("Index", _context.Orders.ToList());
         //}
 
-#region Client
+        #region Client
         [HttpGet]
         [Route("MakeOrder")]
         public IActionResult MakeOrder()
@@ -60,8 +60,9 @@ namespace TaxiStation_Core2_EFCore.Controllers
 
         [HttpGet]
         [Route("Confirm")]
-        public IActionResult ConfirmOrder()
+        public IActionResult ConfirmOrder(int id_order)
         {
+            ViewData["Id_order"] = id_order;
             return View("ConfirmOrder");
         }
 
@@ -76,28 +77,11 @@ namespace TaxiStation_Core2_EFCore.Controllers
                     ViewData["sec_code"] = Code;
                     return View("WaitDriver");
                 }
-                    //return AcceptedOrderInfoForClient(Id_order, Code);
-                    //return RedirectToAction("AcceptedOrderInfoForClient", "Order", _context.Orders.First(u => u.id == Id_order));
+            //return AcceptedOrderInfoForClient(Id_order, Code);
+            //return RedirectToAction("AcceptedOrderInfoForClient", "Order", _context.Orders.First(u => u.id == Id_order));
             ModelState.AddModelError("", "Not correct code, try again");
             ViewData["Id_order"] = Id_order;
             return View("ConfirmOrder");
-        }
-
-        [HttpGet]
-        [Route("EndOrder/{id_order}/{sec_code}")]
-        public IActionResult EndOrderFromClient(long id_order, int sec_code)
-        {
-            try
-            {
-                _context.ClientConfirmEnd(id_order, sec_code);
-                return RedirectToAction("Stars");
-            }
-            catch (Exception err)
-            {
-                ModelState.AddModelError("", err.Message);
-                var a = _context.Orders.Find(id_order);
-                return View("StartOrder", a);
-            }
         }
 
         [HttpGet]
@@ -116,25 +100,52 @@ namespace TaxiStation_Core2_EFCore.Controllers
             }
         }
 
-        //https://localhost:44369/Info/10007/6484
         [HttpGet]
         [Route("Info/{id_order:long}/{sec_code:int}")]
         public IActionResult AcceptedOrderInfoForClient(long id_order, int sec_code)
         {
             try
             {
-                var a = _context.AcceptedOrderInfoForClientProc(Convert.ToInt64(id_order), Convert.ToInt32(sec_code));
-                return View("StartOrderClient", a);
+                if (_context.Orders.First(u => u.id == id_order && u.security_code == sec_code) != null)
+                {
+                    var a = _context.AcceptedOrderInfoForClientProc(Convert.ToInt64(id_order), Convert.ToInt32(sec_code));
+                    ViewData["sec_code"] = sec_code;
+                    return View("StartOrderClient", a);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Not correct code, try again");
+                    ViewData["Id_order"] = id_order;
+                    return View("ConfirmOrder");
+                }
+            }
+            catch (Exception err)
+            {
+                ModelState.AddModelError("", "Not correct code, try again");
+                ViewData["Id_order"] = id_order;
+                return View("ConfirmOrder");
+            }
+        }
+
+        [HttpGet]
+        //[Route("EndOrder")]
+        [Route("EndOrder/{id_order}/{sec_code}")]
+        public IActionResult EndOrderFromClient(long id_order, int sec_code)
+        {
+            try
+            {
+                _context.ClientConfirmEnd(id_order, sec_code);
+                return RedirectToAction("Stars");
             }
             catch (Exception err)
             {
                 ModelState.AddModelError("", err.Message);
-                return View();
+                var a = _context.Orders.Find(id_order);
+                return View("StartOrderClient", a);
             }
-
         }
-        #endregion
 
+        #endregion
 
         #region Driver
         [HttpGet]
@@ -155,6 +166,32 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
 
         [HttpGet]
+        [Route("OrderInfo/{id_order}")]
+        [Authorize]
+        public JsonResult DriverOrderInfo(long id_order)
+        {
+            IEnumerable<bool> list = _context.Orders.Where(u => u.id == id_order).Select(u=>u.client_confirm_end);
+            return Json(list);
+        }
+
+        [HttpGet]
+        [Route("Info/{id_order}")]
+        [Authorize]
+        public IActionResult GetActiveOrderInfo(long id_order)
+        {
+            try
+            {
+                var a = _context.Orders.Find(id_order);
+                return View("StartOrder", a);
+            }
+            catch (Exception err)
+            {
+                ModelState.AddModelError("", err.Message);
+                return RedirectToAction("MonitorOrders", "Order");
+            }
+        }
+
+        [HttpGet]
         [Route("Accept/{id_order}")]
         [Authorize]
         public IActionResult AcceptOrderFromDriver(long id_order)
@@ -162,8 +199,9 @@ namespace TaxiStation_Core2_EFCore.Controllers
             try
             {
                 _context.AcceptOrder(User.Identity.Name, id_order);
-                var a = _context.Orders.Find(id_order);
-                return View("StartOrder", a);
+                return RedirectToAction("Info", "Order", id_order);
+                //var a = _context.Orders.Find(id_order);
+                //return View("StartOrder", a);
             }
             catch (Exception err)
             {
@@ -176,7 +214,8 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [Route("EndOrder/{id_order}")]
         public IActionResult EndOrderFromDriver(long id_order)
         {
-            try { 
+            try
+            {
                 _context.DriverConfirmEnd(User.Identity.Name, id_order);
                 return RedirectToAction("Stars");
             }
@@ -187,6 +226,6 @@ namespace TaxiStation_Core2_EFCore.Controllers
                 return View("StartOrder", a);
             }
         }
-#endregion
+        #endregion
     }
 }
