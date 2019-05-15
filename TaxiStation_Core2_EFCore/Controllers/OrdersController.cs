@@ -101,6 +101,15 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
 
         [HttpGet]
+        [Route("OrderInfo/{id_order}/{sec_code}")]
+        public JsonResult ClientOrderInfo(long id_order, int sec_code)
+        {
+            var a = _context.AcceptedOrderInfoForClientProc(id_order, sec_code);
+            return a == null ? Json(null) : Json(a.end_confirm_driver);
+            //return Json(a.end_confirm_driver);
+        }
+
+        [HttpGet]
         [Route("Info/{id_order:long}/{sec_code:int}")]
         public IActionResult AcceptedOrderInfoForClient(long id_order, int sec_code)
         {
@@ -170,8 +179,8 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [Authorize]
         public JsonResult DriverOrderInfo(long id_order)
         {
-            IEnumerable<bool> list = _context.Orders.Where(u => u.id == id_order).Select(u=>u.client_confirm_end);
-            return Json(list);
+            List<bool> list = _context.Orders.Where(u => u.id == id_order).Select(u=>u.client_confirm_end).ToList<bool>();
+            return list == null ? Json(null) : Json(list[0]);
         }
 
         [HttpGet]
@@ -199,6 +208,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
             try
             {
                 _context.AcceptOrder(User.Identity.Name, id_order);
+                return Redirect($"/Order/Info/{id_order}");
                 return RedirectToAction("Info", "Order", id_order);
                 //var a = _context.Orders.Find(id_order);
                 //return View("StartOrder", a);

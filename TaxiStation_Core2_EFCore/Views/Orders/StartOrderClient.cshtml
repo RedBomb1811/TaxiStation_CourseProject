@@ -106,8 +106,41 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.number)
         </dd>
+        <dt class="col-sm-2">
+            Водитель завершил поездку:
+        </dt>
+        <dd id="isEndFromDriver"  class="col-sm-10">
+        </dd>
     </dl>
 </div>
 <div>
     <a class="nav-link text-dark" href="/Order/EndOrder/@(Model.order_id)/@(ViewData["sec_code"])">Завершить поездку</a>
 </div>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        loadData();
+        setInterval(loadData, 1000 * 5);
+    });
+
+    function loadData() {
+        $.ajax({
+            url: "/Order/OrderInfo/@(Model.order_id)/@(ViewData["sec_code"])",
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                var html = '';
+                $.each(result, function (key, item) {
+                    html += '<input type="checkbox" class="custom-checkbox" disabled="disabled" ';
+                    html += item ? 'checked="checked"' : '';
+                    html += '/>';
+                });
+                $('#isEndFromDriver').html(html);
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+</script>

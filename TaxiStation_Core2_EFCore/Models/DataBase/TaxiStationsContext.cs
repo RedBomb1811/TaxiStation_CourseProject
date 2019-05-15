@@ -418,7 +418,8 @@ namespace TestExample.DB
                                 driver_name = result.GetString(12),
                                 rating = result.GetDouble(13),
                                 model = result.GetString(14),
-                                number = result.GetString(15)
+                                number = result.GetString(15),
+                                end_confirm_driver = result.GetBoolean(16)
                             };
                         }
                     }

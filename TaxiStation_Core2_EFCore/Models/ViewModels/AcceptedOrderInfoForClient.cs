@@ -25,5 +25,6 @@ namespace TaxiStation_Core2_EFCore.Models.ViewModels
         public double rating { get; set; }
         public string model { get; set; }
         public string number { get; set; }
+        public bool end_confirm_driver { get; set; }
     }
 }
