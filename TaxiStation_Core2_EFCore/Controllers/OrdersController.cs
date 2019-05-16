@@ -105,7 +105,10 @@ namespace TaxiStation_Core2_EFCore.Controllers
         public JsonResult ClientOrderInfo(long id_order, int sec_code)
         {
             var a = _context.AcceptedOrderInfoForClientProc(id_order, sec_code);
-            return a == null ? Json(null) : Json(a.end_confirm_driver);
+            if (a == null)
+                return Json(null);
+            else return Json(a.end_confirm_driver);
+            //return a == null ? Json(null) : Json(a.end_confirm_driver);
             //return Json(a.end_confirm_driver);
         }
 
@@ -180,7 +183,8 @@ namespace TaxiStation_Core2_EFCore.Controllers
         public JsonResult DriverOrderInfo(long id_order)
         {
             List<bool> list = _context.Orders.Where(u => u.id == id_order).Select(u=>u.client_confirm_end).ToList<bool>();
-            return list == null ? Json(null) : Json(list[0]);
+            if (list == null) return Json(null);
+            else return Json(list[0]);
         }
 
         [HttpGet]

@@ -109,7 +109,7 @@
         <dt class="col-sm-2">
             Водитель завершил поездку:
         </dt>
-        <dd id="isEndFromDriver"  class="col-sm-10">
+        <dd id="isEndFromDriver" class="col-sm-10">
         </dd>
     </dl>
 </div>
@@ -131,11 +131,11 @@
             dataType: "json",
             success: function (result) {
                 var html = '';
-                $.each(result, function (key, item) {
+                //$.each(result, function (key, item) {
                     html += '<input type="checkbox" class="custom-checkbox" disabled="disabled" ';
-                    html += item ? 'checked="checked"' : '';
+                    html += result ? 'checked="checked"' : '';
                     html += '/>';
-                });
+                //});
                 $('#isEndFromDriver').html(html);
             },
             error: function (errormessage) {
