@@ -12,6 +12,7 @@ namespace TaxiStation_Core2_EFCore.Models.ViewModels
         [Required]
         [Display(Name = "Номер телефона")]
         [DataType(DataType.PhoneNumber)]
+        [Phone]
         public string Phone_number { get; set; }
         [Required]
         [Display(Name = "Тип заказа")]

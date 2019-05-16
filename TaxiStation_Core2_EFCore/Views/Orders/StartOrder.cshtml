@@ -95,11 +95,9 @@
             dataType: "json",
             success: function (result) {
                 var html = '';
-                //$.each(result, function (key, item) {
-                    html += '<input type="checkbox" class="custom-checkbox" disabled="disabled" ';
-                    html += result ? 'checked="checked"' : '';
-                    html += '/>';
-                //});
+                html += '<input type="checkbox" class="custom-checkbox" disabled="disabled" ';
+                html += result ? 'checked="checked"' : '';
+                html += '/>';
                 $('#isEndFromClient').html(html);
             },
             error: function (errormessage) {

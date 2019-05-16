@@ -28,7 +28,6 @@ D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netc
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\TaxiStation_Core2_EFCore.dll
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\TaxiStation_Core2_EFCore.pdb
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\TaxiStation_Core2_EFCore.csproj.CopyComplete
-D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\EFCoreSqlServerNetTopologySuite.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Drivers\LoginDriver.g.cshtml.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Drivers\RegisterDriver.g.cshtml.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Drivers\ConfirmDriver.g.cshtml.cs
@@ -48,3 +47,4 @@ D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netc
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Orders\StartOrder.g.cshtml.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Orders\StartOrderClient.g.cshtml.cs
 D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\Razor\Views\Orders\WaitDriver.g.cshtml.cs
+D:\Работы\TaxiStation_Core2_EFCore\TaxiStation_Core2_EFCore\obj\Debug\netcoreapp2.2\EFCoreSqlServerNetTopologySuite.cs

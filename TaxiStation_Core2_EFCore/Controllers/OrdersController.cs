@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Nexmo.Api;
 using TaxiStation_Core2_EFCore.Models.ViewModels;
 using TestExample.DB;
 
@@ -21,13 +24,6 @@ namespace TaxiStation_Core2_EFCore.Controllers
             _context = context;
         }
 
-        //[HttpGet]
-        //[Route("Index")]
-        //public IActionResult Index()
-        //{
-
-        //    return View("Index", _context.Orders.ToList());
-        //}
 
         #region Client
         [HttpGet]
@@ -42,17 +38,42 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [Route("MakeOrder")]
         public IActionResult MakeOrder(MakeOrder order)
         {
-            ///TODO: MakeOrder
             try
             {
-                int id_order = _context.MakeOrder(order.Phone_number, order.Id_order_type, order.Start_point_lat, order.Start_point_long,
+                long id_order = _context.MakeOrder(order.Phone_number, order.Id_order_type, order.Start_point_lat, order.Start_point_long,
                     order.End_point_lat, order.End_point_long, order.Child, order.Pets);
-                ViewData["Id_order"] = id_order;
-                return View("ConfirmOrder");
+                if (id_order != 0)
+                {
+                    var real_order = _context.Orders.Find(id_order);
+                    Regex regex = new Regex("^((375)+([0-9]){9})$");
+
+                    if (regex.IsMatch(real_order.id_client))
+                    {
+                        var client = new Client(creds: new Nexmo.Api.Request.Credentials
+                        {
+                            ApiKey = "4dd35858",
+                            ApiSecret = "uEKy30WoKHpgQaBa"
+                        });
+                        SMS.SMSRequest sms = new SMS.SMSRequest()
+                        {
+                            from = "TaxiStation_Course",
+                            //to = "375292953436",
+                            to = real_order.id_client,
+                            text = "Security Code for order " + real_order.id + ": " + real_order.security_code
+                        };
+
+                        ////////var results = client.SMS.Send(sms);
+                        ViewData["Id_order"] = id_order;
+                        return View("ConfirmOrder");
+                    }
+                    else
+                        throw new Exception(message: "Order didnt create!");
+                }
+                else
+                    throw new Exception(message: "Order didnt create!");
             }
             catch (Exception sqlException)
             {
-                ///TODO: обработка ошибки и вызврат существующего номера заказа
                 ModelState.AddModelError("", sqlException.Message);
                 return View("MakeOrder");
             }
@@ -84,6 +105,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
             return View("ConfirmOrder");
         }
 
+        //Call from Ajax (check Driver accept order)
         [HttpGet]
         [Route("InfoJson/{id_order}/{sec_code}")]
         public JsonResult AcceptedOrderInfoForClientJson(long id_order, int sec_code)
@@ -140,7 +162,6 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
 
         [HttpGet]
-        //[Route("EndOrder")]
         [Route("EndOrder/{id_order}/{sec_code}")]
         public IActionResult EndOrderFromClient(long id_order, int sec_code)
         {
@@ -158,7 +179,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
         }
 
         #endregion
-
+       //---------------------------------------//
         #region Driver
         [HttpGet]
         [Route("Monitor")]
@@ -182,7 +203,7 @@ namespace TaxiStation_Core2_EFCore.Controllers
         [Authorize]
         public JsonResult DriverOrderInfo(long id_order)
         {
-            List<bool> list = _context.Orders.Where(u => u.id == id_order).Select(u=>u.client_confirm_end).ToList<bool>();
+            List<bool> list = _context.Orders.Where(u => u.id == id_order).Select(u => u.client_confirm_end).ToList<bool>();
             if (list == null) return Json(null);
             else return Json(list[0]);
         }
@@ -213,9 +234,6 @@ namespace TaxiStation_Core2_EFCore.Controllers
             {
                 _context.AcceptOrder(User.Identity.Name, id_order);
                 return Redirect($"/Order/Info/{id_order}");
-                return RedirectToAction("Info", "Order", id_order);
-                //var a = _context.Orders.Find(id_order);
-                //return View("StartOrder", a);
             }
             catch (Exception err)
             {
